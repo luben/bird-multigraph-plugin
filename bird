@@ -66,6 +66,8 @@ sub get_stats {
         given($_) {
             when (/1002-(\w+)\s+(\w+)\s+.*/) {
                 ($name, $protocol) = ($1,$2);
+                next unless $protocol ~~ $protocols;
+                $stats->{$name}->{protocol} = $protocol;
             }
             when (/^0001 /) {
                 print $bird_ctl "show protocols all\n";
