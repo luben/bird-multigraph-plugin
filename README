@@ -1,42 +1,33 @@
-=head1 NAME
+NAME
+    bird - Munin multigraph plugin to monitor BIRD routing daemon activity
 
-bird - Munin multigraph plugin to monitor BIRD routing daemon activity
+APPLICABLE SYSTEMS
+    Every system with running bird
 
-=head1 APPLICABLE SYSTEMS
+CONFIGURATION
+    The plugin must run with a user or group that could connect to bird
+    control socket.
 
-Every system with running bird
+    This configuration snipplet is an example with the defaults:
 
-=head1 CONFIGURATION
+      [bird]
+        user root
+        protocols BGP
+        socket /var/run/bird.ctl
 
-The plugin must run with a user or group that could connect to bird
-control socket.
+USAGE
+    Link this plugin to /etc/munin/plugins/ and restart the munin-node.
 
-This configuration snipplet is an example with the defaults:
+MAGIC MARKERS
+      #%# family=auto
+      #%# capabilities=autoconf
 
-  [bird]
-    user root
-    protocols BGP
-    socket /var/run/bird.ctl
+BUGS
+    Not known
 
-=head1 USAGE
+AUTHOR
+    Luben Karavelov (karavelov at mail.bg)
 
-Link this plugin to /etc/munin/plugins/ and restart the munin-node.
+LICENSE
+    Same as perl
 
-=head1 MAGIC MARKERS
-
-  #%# family=auto
-  #%# capabilities=autoconf
-
-=head1 BUGS
-
-Not known
-
-=head1 AUTHOR
-
-Luben Karavelov (karavelov at mail.bg)
-
-=head1 LICENSE
-
-Same as perl
-
-=cut
