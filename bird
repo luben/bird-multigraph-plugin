@@ -22,8 +22,8 @@ This configuration snipplet is an example with the defaults:
 
   [bird]
     user root
-    protocols BGP
-    socket /var/run/bird.ctl
+    env.protocols BGP
+    env.socket /var/run/bird.ctl
 
 =head1 USAGE
 
