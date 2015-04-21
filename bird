@@ -1,9 +1,7 @@
 #!/usr/bin/perl
 use IO::Socket::UNIX;
 use Munin::Plugin;
-use strict;
-use warnings;
-use v5.10;
+use common::sense;
 
 =head1 NAME
 
