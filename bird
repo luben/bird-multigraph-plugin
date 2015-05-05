@@ -60,8 +60,8 @@ sub get_stats {
         ) or die $!;
 
     my ($protocol,$name);
-    while (<$bird_ctl>) {
-        given($_) {
+    while (my $line = <$bird_ctl>) {
+        given($line) {
             when (/1002-(\w+)\s+(\w+)\s+.*/) {
                 ($name, $protocol) = ($1,$2);
                 next unless $protocol ~~ $protocols;
