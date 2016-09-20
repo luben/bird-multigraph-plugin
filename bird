@@ -81,11 +81,12 @@ sub get_stats {
                 next unless $protocol ~~ $protocols;
                 $stats->{$name}->{title} = $1;
             }
-            when (/^\s+Routes:\s+(\d+)\s+imported,\s+(\d+)\s+exported,\s+(\d+)\s+preferred$/){
+            when (/^\s+Routes:\s+(\d+)\s+imported,\s+(\d+)\s+filtered,\s+(\d+)\s+exported,\s+(\d+)\s+preferred$/){
                 next unless $protocol ~~ $protocols;
                 $stats->{$name}->{imported} = $1;
-                $stats->{$name}->{exported} = $2;
-                $stats->{$name}->{preferred} = $3;
+                $stats->{$name}->{filtered} = $2;
+                $stats->{$name}->{exported} = $3;
+                $stats->{$name}->{preferred} = $4;
             }
             # received   rejected   filtered    ignored   accepted
             when (/^\s+(Import|Export)\s(updates|withdraws):\s+(\d+|-+)\s+(\d+|-+)\s+(\d+|-+)\s+(\d+|-+)\s+(\d+|-+)$/){
@@ -134,6 +135,11 @@ imported.label Imported routes
 imported.type GAUGE
 imported.info Impored routes
 imported.min 0
+imported.draw LINE1
+filtered.label Filtered routes
+filtered.type GAUGE
+filtered.info Filterd routes
+filtered.min 0
 imported.draw LINE1
 preferred.label Preferred routes
 preferred.type GAUGE
@@ -201,6 +207,7 @@ sub fetch {
 multigraph ${name}_routes
 exported.value $proto->{exported}
 imported.value $proto->{imported}
+filtered.value $proto->{filtered}
 preferred.value $proto->{preferred}
 multigraph ${name}_activity
 import_updates_received.value $proto->{import_updates_received}
