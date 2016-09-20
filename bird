@@ -66,6 +66,7 @@ sub get_stats {
                 ($name, $protocol) = ($1,$2);
                 next unless $protocol ~~ $protocols;
                 $stats->{$name}->{protocol} = $protocol;
+                $stats->{$name}->{title} = $name;
             }
             when (/^0001 /) {
                 print $bird_ctl "show protocols all\n";
@@ -76,10 +77,6 @@ sub get_stats {
             }
             when (/^1002- /) {
                 print;
-            }
-            when (/^1006-\s+Description:\s+(.+)$/){
-                next unless $protocol ~~ $protocols;
-                $stats->{$name}->{title} = $1;
             }
             when (/^\s+Routes:\s+(\d+)\s+imported,\s+(\d+)\s+filtered,\s+(\d+)\s+exported,\s+(\d+)\s+preferred$/){
                 next unless $protocol ~~ $protocols;
