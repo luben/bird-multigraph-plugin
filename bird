@@ -49,6 +49,9 @@ Same as perl
 need_multigraph();
 my $protocols = [ split(/ /, $ENV{'protocols'} || 'BGP') ];
 my $socket    = $ENV{'socket'} || '/var/run/bird.ctl';
+my $prog_name= $0;
+$prog_name =~ /\/([a-zA-Z6]+)$/;
+my $my_calling_name = $1 || 'bird';
 
 sub get_stats {
     state $stats;
@@ -118,11 +121,11 @@ sub config {
     my $stats = get_stats;
     while ( my ($name,$proto) = each %$stats) {
         print <<HEREDOC;
-multigraph ${name}_routes
+multigraph ${name}_routes_${my_calling_name}
 graph_title $proto->{title} routes
 graph_args --base 1000
 graph_vlabel routes
-graph_category bird
+graph_category ${my_calling_name}
 exported.label Exported routes
 exported.type GAUGE
 exported.info Exported routes
@@ -143,11 +146,11 @@ preferred.type GAUGE
 preferred.info Preferred routes
 preferred.min 0
 preferred.draw LINE1
-multigraph ${name}_activity
+multigraph ${name}_activity_${my_calling_name}
 graph_title $proto->{title} activity
 graph_args --base 1000
 graph_vlabel routes per second
-graph_category bird
+graph_category ${my_calling_name}
 import_updates_received.label Import updates received
 import_updates_received.type DERIVE
 import_updates_received.draw LINE1
@@ -201,12 +204,12 @@ sub fetch {
     my $stats = get_stats;
     while ( my ($name,$proto) = each %$stats) {
         print <<HEREDOC;
-multigraph ${name}_routes
+multigraph ${name}_routes_${my_calling_name}
 exported.value $proto->{exported}
 imported.value $proto->{imported}
 filtered.value $proto->{filtered}
 preferred.value $proto->{preferred}
-multigraph ${name}_activity
+multigraph ${name}_activity_${my_calling_name}
 import_updates_received.value $proto->{import_updates_received}
 import_updates_rejected.value $proto->{import_updates_rejected}
 import_updates_filtered.value $proto->{import_updates_filtered}
