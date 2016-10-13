@@ -88,6 +88,13 @@ sub get_stats {
                 $stats->{$name}->{exported} = $3;
                 $stats->{$name}->{preferred} = $4;
             }
+            when (/^\s+Routes:\s+(\d+)\s+imported,\s+(\d+)\s+exported,\s+(\d+)\s+preferred$/){
+                next unless $protocol ~~ $protocols;
+                $stats->{$name}->{imported} = $1;
+                $stats->{$name}->{filtered} = 0;
+                $stats->{$name}->{exported} = $2;
+                $stats->{$name}->{preferred} = $3;
+            }
             # received   rejected   filtered    ignored   accepted
             when (/^\s+(Import|Export)\s(updates|withdraws):\s+(\d+|-+)\s+(\d+|-+)\s+(\d+|-+)\s+(\d+|-+)\s+(\d+|-+)$/){
                 next unless $protocol ~~ $protocols;
